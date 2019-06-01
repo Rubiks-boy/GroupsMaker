@@ -3,7 +3,6 @@ package Logic;
 import Models.Competitor;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,18 +13,19 @@ import java.util.Map;
 import static java.lang.Integer.parseInt;
 
 public class CSVToCompetitor {
-    private static List<String> getEventsList(String headerStr) {
-        List<String> eventsList = new ArrayList<>();
+    private List<String> eventsList;
+    private List<Competitor> competitors;
+
+    private void makeEventsList(String headerStr) {
+        eventsList = new ArrayList<>();
         String[] splitLine = headerStr.split(",");
 
         for (int i = 6; i < splitLine.length - 1 - 3; i++) {
             eventsList.add(splitLine[i]);
         }
-
-        return eventsList;
     }
 
-    private static Competitor lineToCompetitor(String line, List<String> eventsList) {
+    private Competitor lineToCompetitor(String line, List<String> eventsList) {
         //split line according to commas
         String[] splitLine = line.split(",");
 
@@ -48,11 +48,11 @@ public class CSVToCompetitor {
         return new Competitor(name, wcaId, birthDate, events);
     }
 
-    public static List<Competitor> extractCompetitorsList(BufferedReader file) {
-        List<Competitor> competitors = new ArrayList<>();
+    public void extractCompetitorsList(BufferedReader file) {
+        competitors = new ArrayList<>();
 
         try {
-            List<String> eventsList = getEventsList(file.readLine());
+            makeEventsList(file.readLine());
             String line = "";
 
             while((line = file.readLine()) != null) {
@@ -61,7 +61,17 @@ public class CSVToCompetitor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public CSVToCompetitor(BufferedReader file) {
+        extractCompetitorsList(file);
+    }
+
+    public List<String> getEventsList() {
+        return eventsList;
+    }
+
+    public List<Competitor> getCompetitors() {
         return competitors;
     }
 }
