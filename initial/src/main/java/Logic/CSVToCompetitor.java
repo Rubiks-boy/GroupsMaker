@@ -5,16 +5,13 @@ import Models.Competitor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
 public class CSVToCompetitor {
     private List<String> eventsList;
-    private List<Competitor> competitors;
+    private Set<Competitor> competitors;
 
     private void makeEventsList(String headerStr) {
         eventsList = new ArrayList<>();
@@ -49,7 +46,7 @@ public class CSVToCompetitor {
     }
 
     public void extractCompetitorsList(BufferedReader file) {
-        competitors = new ArrayList<>();
+        competitors = new HashSet<>();
 
         try {
             makeEventsList(file.readLine());
@@ -71,7 +68,7 @@ public class CSVToCompetitor {
         return eventsList;
     }
 
-    public List<Competitor> getCompetitors() {
-        return competitors;
+    public Set<Competitor> getCompetitors() {
+        return Collections.unmodifiableSet(competitors);
     }
 }
