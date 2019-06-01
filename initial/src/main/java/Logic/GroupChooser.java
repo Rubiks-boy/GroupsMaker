@@ -17,4 +17,10 @@ public class GroupChooser {
 
         return groups.get(0).getGroupNum();
     }
+
+    public static void assignCompetingGroups(Set<Competitor> competitors, List<Group> groups) {
+        for(Competitor c : competitors) {
+            groups.get(getBestGroupNumForCompeting(c, groups)).addCompeting(c);
+        }
+    }
 }
