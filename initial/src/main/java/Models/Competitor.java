@@ -1,6 +1,8 @@
 package Models;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class Competitor {
     }
 
     public Map<String, Boolean> getEvents() {
-        return events;
+        return Collections.unmodifiableMap(events);
     }
 
     @Override

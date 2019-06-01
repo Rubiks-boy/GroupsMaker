@@ -1,9 +1,6 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GroupStorage {
     private Map<String, List<Group>> eventsGroups;
@@ -16,12 +13,12 @@ public class GroupStorage {
             List<Group> currEventGroups = new ArrayList<>();
 
             for(int j = 0; j < currNumGroups; j++) {
-                currEventGroups.add(new Group(currEvent, Group.STANDARD_ROLES));
+                currEventGroups.add(new Group(currEvent, j, Group.STANDARD_ROLES));
             }
         }
     }
 
     public List<Group> getGroups(String event) {
-        return eventsGroups.get(event);
+        return Collections.unmodifiableList(eventsGroups.get(event));
     }
 }

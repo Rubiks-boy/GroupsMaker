@@ -13,16 +13,22 @@ public class Group {
     }
 
     private String eventName;
+    private int groupNum;
     private Set<Competitor> competing;
     private Map<String, Set<Competitor>> helpingRoles;
 
-    public Group(String eventName, List<String> roles) {
+    public Group(String eventName, int groupNum, List<String> roles) {
         this.eventName = eventName;
+        this.groupNum = groupNum;
         this.competing = new HashSet<>();
         this.helpingRoles = new HashMap<>();
         for(String role: roles) {
             helpingRoles.put(role, new HashSet<>());
         }
+    }
+
+    public String getEventName() {
+        return eventName;
     }
 
     public void addCompeting(Competitor competitor) {
@@ -34,7 +40,7 @@ public class Group {
     }
 
     public Set<Competitor> getCompeting() {
-        return competing;
+        return Collections.unmodifiableSet(competing);
     }
 
     public void addToRole(String role, Competitor competitor) {
@@ -45,7 +51,11 @@ public class Group {
         this.helpingRoles.get(role).remove(competitor);
     }
 
+    public int getGroupNum() {
+        return groupNum;
+    }
+
     public Set<Competitor> getInRole(String role) {
-        return helpingRoles.get(role);
+        return Collections.unmodifiableSet(helpingRoles.get(role));
     }
 }
